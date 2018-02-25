@@ -1,26 +1,24 @@
 {
   "name": "fcfs-client",
   "version": "1.0.0",
-  "description":
-    "FCFS is a web application for first-come-first-served surveys such as enrollment applications.",
+  "description": "FCFS is a web application for first-come-first-served surveys such as enrollment applications.",
   "author": "Lee Jaeseok <leeneiwiso@gmail.com>",
   "private": true,
   "scripts": {
-    "dev":
-      "webpack-dev-server --inline --progress --config build/webpack.dev.conf.js",
+    "dev": "webpack-dev-server --inline --progress --config build/webpack.dev.conf.js",
     "start": "npm run dev",
     "unit": "jest --config test/unit/jest.conf.js --coverage",
     "test": "npm run unit",
     "build": "node build/build.js"
   },
   "dependencies": {
+    "ajv": "^6.1.1",
     "axios": "^0.17.1",
     "es6-promise": "^4.1.1",
     "lodash": "^4.17.5",
     "vue": "^2.5.2",
     "vue-router": "^3.0.1",
     "vue-simple-spinner": "^1.2.8",
-    "vuejs-paginate": "^1.6.0",
     "vuex": "^3.0.1"
   },
   "devDependencies": {
@@ -46,6 +44,7 @@
     "portfinder": "^1.0.13",
     "postcss-import": "^11.0.0",
     "postcss-loader": "^2.0.8",
+    "postcss-url": "^7.3.0",
     "rimraf": "^2.6.0",
     "semver": "^5.3.0",
     "shelljs": "^0.7.6",
@@ -63,5 +62,9 @@
     "node": ">= 6.0.0",
     "npm": ">= 3.0.0"
   },
-  "browserslist": ["> 1%", "last 2 versions", "not ie <= 8"]
+  "browserslist": [
+    "> 1%",
+    "last 2 versions",
+    "not ie <= 8"
+  ]
 }
