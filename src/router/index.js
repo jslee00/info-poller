@@ -1,18 +1,18 @@
 import Vue from "vue";
 import Router from "vue-router";
+import _ from "lodash";
 
 import Home from "../components/Home";
-import Login from "../components/Login";
-import Open from "../components/Open";
-import Introduce from "../components/Introduce";
 import NotFound from "../components/NotFound";
 
 import apply from "./apply";
 import user from "./user";
+import open from "./open";
+import introduce from "./introduce";
 
 Vue.use(Router);
 
-export default new Router({
+var router = new Router({
   mode: "history",
   routes: [
     {
@@ -22,39 +22,21 @@ export default new Router({
     {
       path: "/home",
       name: "home",
-      component: Home,
-      props: function(route) {
-        return { s: route.query.s };
-      }
-    },
-    {
-      path: "/login",
-      name: "login",
-      component: Login
-    },
-    {
-      path: "/logout",
-      name: "logout"
-    },
-    {
-      path: "/open",
-      name: "open",
-      component: Open,
-      props: function(route) {
-        return { s: route.query.s };
-      }
-    },
-    apply,
-    user,
-    {
-      path: "/introduce",
-      name: "introduce",
-      component: Introduce
+      component: Home
     },
     {
       path: "*",
       name: "notFound",
       component: NotFound
     }
-  ]
+  ].concat(apply, user, open, introduce)
 });
+
+router.beforeEach(function(to, from, next) {
+  setTimeout(() => {
+    document.body.scrollTop = document.documentElement.scrollTop = 0;
+  }, 10);
+  next();
+});
+
+export default router;

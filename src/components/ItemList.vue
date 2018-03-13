@@ -1,72 +1,58 @@
 <template>
-  <div>
-    <nav-scroller :submenu="submenu"></nav-scroller>
-    <div class="container-fluid">
-      <div class="row">
-        <div class="col-sm-6 col-md-4 col-lg-3 mt-4">
-          <router-link class="item" :to="{name:'itemDetail', params:{item:1}}">
-            <div id="item-1" class="card">
-              <img class="card-img-top" src="http://success-at-work.com/wp-content/uploads/2015/04/free-stock-photos.gif">
-              <div class="card-block">
-                <h4 class="card-title">미적분 I</h4>
-                <div class="meta">
-                  <router-link :to="{name:'home'}">홍길동 선생님</router-link>
-                </div>
-                <div class="card-text">
-                  강좌 소개가 너무 길어강좌 소개가 너무 길어강좌 소개가 너무 길어강좌 소개가 너무 길어강좌 소개가 너무 길어강좌 소개가 너무 길어강좌 소개가 너무 길어강좌 소개가 너무 길어강좌 소개가 너무 길어강좌 소개가 너무 길어강좌 소개가 너무 길어강좌 소개가 너무 길어강좌 소개가 너무 길어강좌 소개가 너무 길어강좌 소개가 너무 길어강좌 소개가 너무 길어강좌 소개가 너무 길어강좌 소개가 너무 길어강좌 소개가 너무 길어강좌 소개가 너무 길어강좌 소개가 너무 길어강좌 소개가 너무 길
-                </div>
-                <div class="card-badge">
-                  <week-badge :week="['월','수']"></week-badge>
-                </div>
-              </div>
-              <div class="card-footer">
-                <span class="imminent"><i class="fas fa-users"></i> 75 / 80</span>
-                <span class="imminent float-right">2018/02/03~2018/02/19</span>
-              </div>
+  <div class="row">
+    <div class="col-sm-6 col-md-4 col-lg-3 mt-4" v-for="item in itemList" :key="item._id" v-if="option.param == '' || option.value == '' || (option.param == 'title' && item.title.includes(option.value)) || (option.param == 'intro' && item.intro.includes(option.value)) || (option.param == 'tag' && item.tags.includes(option.value)) || (option.param == 'leader' && item.leaderincludes(option.value)) || (option.param == 'all' && (item.title.includes(option.value) || item.intro.includes(option.value) || item.tags.includes(option.value) || item.leader.includes(option.value)))">
+      <router-link class="item" :to="{name:'itemDetail', params:{poll_id:item.poll, item_id:item._id}}">
+        <div id="item-1" class="card">
+          <div class="card-img-wrapper">
+            <img class="card-img" :src="item.image">
+          </div>
+          <div class="card-block">
+            <h4 class="card-title">{{ item.title }}</h4><span class="ml-2" v-if="item.applied"><i class="fas fa-check-circle"></i></span>
+            <div class="meta">
+              <span>{{ item.leader }}</span>
             </div>
-          </router-link>
+            <div class="card-badge">
+              <week-badge :week="item.week"></week-badge>
+            </div>
+            <div class="card-text">
+              {{ item.intro }}
+            </div>
+          </div>
+          <div class="card-footer">
+            <span class="imminent"><i class="fas fa-users"></i> {{ item.currentApply }} / {{ (item.maxApply == -1)?("&#x221E;"):(item.maxApply) }}</span>
+            <div class="mt-2">
+              <!-- <tag-badge :tags="item.tags" :poll="poll" class="d-inline-block"></tag-badge> -->
+            </div>
+          </div>
         </div>
-      </div><!-- .row -->
-      <search-bar class="mt-5"></search-bar>
-    </div><!-- .container-fluid -->
-  </div>
+      </router-link>
+    </div>
+  </div><!-- .row -->
 </template>
 
 <script>
-import NavScroller from "./NavScroller";
-import SearchBar from "./SearchBar";
+import { mapState } from "vuex";
+
+import CONSTANT from "../constant";
+
+import TagBadge from "./TagBadge";
 import WeekBadge from "./WeekBadge";
 
 export default {
   name: "item-list",
-  props: ["o"],
-  components: { NavScroller, SearchBar, WeekBadge },
-  data: function() {
-    return {
-      submenu: [
-        {
-          text: "최신",
-          badge: 0,
-          to: { name: "itemList", query: { o: "new" } }
-        },
-        {
-          text: "인기",
-          badge: 0,
-          to: { name: "itemList", query: { o: "hot" } }
-        },
-        {
-          text: "마감 임박",
-          badge: 0,
-          to: { name: "itemList", query: { o: "imminent" } }
-        }
-      ]
-    };
-  }
+  props: ["poll", "option"],
+  components: { TagBadge, WeekBadge },
+  mounted: function() {
+    this.$store.dispatch(CONSTANT.LOAD_ITEM_LIST, {
+      poll_id: this.poll
+    });
+  },
+  computed: mapState(["itemList"])
 };
 </script>
 
 <style scoped>
-.item {
+.row > div > a {
   text-decoration: none;
 }
 
@@ -93,10 +79,13 @@ export default {
   box-shadow: none;
 }
 
-.card-img-top {
+.card-img-wrapper {
+  max-height: 200px;
+  overflow: hidden;
+}
+.card-img {
   display: block;
   width: 100%;
-  height: auto;
 }
 
 .card-title {
@@ -105,7 +94,6 @@ export default {
   color: rgba(0, 0, 0, 1);
   font-size: 18px;
   font-weight: 700;
-  line-height: 23px;
 }
 
 .card-text {
@@ -146,7 +134,8 @@ export default {
   color: rgba(0, 0, 0, 0.4);
 }
 
-.meta a {
+.meta a,
+.meta span {
   text-decoration: none;
   color: rgba(0, 0, 0, 0.4);
 }

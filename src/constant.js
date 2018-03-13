@@ -1,10 +1,18 @@
 export default {
-  FETCH_CONTACTS: "fetchContacts",
-  ADD_CONTACT: "addContact",
-  UPDATE_CONTACT: "updateContact",
-  UPDATE_PHOTO: "updatePhoto",
-  DELETE_CONTACT: "deleteContact",
-  FETCH_CONTACT_ONE: "fetchContactOne",
-  INITIALIZE_CONTACT_ONE: "initializeContactOne",
-  CHANGE_ISLOADING: "changeIsLoading"
-}
+  LOGIN: "login",
+  LOGOUT: "logout",
+  SIGNUP: "signUp",
+  EDIT_USER_INFO: "editUserInfo",
+  LOAD_USER_INFO: "loadUserInfo",
+  LOAD_AUTH: "loadAuth",
+  CHANGE_FLASH: "changeFlash",
+  CHANGE_ISLOADING: "changeIsLoading",
+  LOAD_POLL_LIST: "loadPollList",
+  LOAD_POLL_DETAIL: "loadPollDetail",
+  OPEN_POLL: "openPoll",
+  LOAD_ITEM_LIST: "loadItemList",
+  LOAD_ITEM_DETAIL: "loadItemDetail",
+  OPEN_ITEM: "openItem",
+  APPLY_ITEM: "applyItem",
+  CANCEL_ITEM: "cancelItem"
+};

@@ -1,6 +1,6 @@
-# fcfs-client
+# Poller-client
 
-> FCFS is a web application for first-come-first-served surveys such as enrollment applications.
+> Poller is a web application for first-come-first-served surveys such as enrollment applications.
 
 ## Build Setup
 

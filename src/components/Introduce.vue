@@ -18,9 +18,22 @@ export default {
     return {
       submenu: [
         {
-          text: "Login",
+          text: "소개",
           badge: 0,
-          to: { name: "login" }
+          to: { name: "introduce", query: { s: "main" } },
+          type: "exact"
+        },
+        {
+          text: "사용법 - 선생님",
+          badge: 0,
+          to: { name: "introduce", query: { s: "teacher" } },
+          type: "exact"
+        },
+        {
+          text: "사용법 - 학생",
+          badge: 0,
+          to: { name: "introduce", query: { s: "student" } },
+          type: "exact"
         }
       ]
     };

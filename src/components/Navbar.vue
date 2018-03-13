@@ -1,35 +1,36 @@
 <template>
   <nav class="navbar navbar-expand-md fixed-top navbar-dark bg-dark justify-content-between">
-    <router-link :to="{name:'home'}" class="navbar-brand" tabindex="0">FCFS</router-link>
+    <router-link :to="{name:'home'}" class="navbar-brand" tabindex="0" onclick="$('.offcanvas-collapse').removeClass('open');">Poller</router-link>
     <button class="navbar-toggler p-0 border-0" type="button" data-toggle="offcanvas" onclick="$('.offcanvas-collapse').toggleClass('open');">
       <span class="navbar-toggler-icon"></span>
     </button>
     <div class="navbar-collapse offcanvas-collapse" id="navbarsExampleDefault">
       <ul class="navbar-nav mr-auto">
         <li class="nav-item">
-          <router-link :to="{name:'home'}" active-class="active" class="nav-link">Home</router-link>
+          <router-link :to="{name:'home'}" active-class="active" class="nav-link" onclick="$('.offcanvas-collapse').removeClass('open');">Home</router-link>
         </li>
         <li class="nav-item">
-          <router-link :to="{name:'introduce'}" active-class="active" class="nav-link">소개</router-link>
+          <router-link :to="{name:'introduce', query:{s:'main'}}" active-class="active" class="nav-link" onclick="$('.offcanvas-collapse').removeClass('open');">소개</router-link>
         </li>
         <li class="nav-item">
-          <router-link :to="{name:'itemList'}" v-if="username != undefined" active-class="active" class="nav-link">신청하기</router-link>
+          <router-link :to="{name:'pollList'}" v-if="user.name != undefined" active-class="active" class="nav-link" onclick="$('.offcanvas-collapse').removeClass('open');">참여하기</router-link>
         </li>
         <li class="nav-item">
-          <router-link :to="{name:'open'}" v-if="username != undefined" active-class="active" class="nav-link">개설하기</router-link>
+          <router-link :to="{name:'open'}" v-if="user.rank == 'admin'" active-class="active" class="nav-link" onclick="$('.offcanvas-collapse').removeClass('open');">개설하기</router-link>
         </li>
         <li class="nav-item">
-          <router-link :to="{name:'userInfo', params:{'username':username}}" v-if="username != undefined" active-class="active" class="nav-link">내 정보</router-link>
-        </li>
-        <li class="nav-item">
-          <router-link :to="{name:'logout'}" v-if="username != undefined" active-class="active" class="nav-link">로그아웃</router-link>
-          <router-link :to="{name:'login'}" v-else active-class="active" class="nav-link">로그인</router-link>
+          <router-link :to="{name:'userInfo', params:{'user_id':user._id}}" v-if="user.name != undefined" active-class="active" class="nav-link" onclick="$('.offcanvas-collapse').removeClass('open');">내 정보</router-link>
         </li>
       </ul>
-      <form class="form-inline my-2 my-lg-0">
-        <input class="form-control mr-sm-2" type="text" placeholder="무엇을 찾을까요?" aria-label="Search">
-        <button class="btn btn-outline-success my-2 my-sm-0" type="submit">검색</button>
-      </form>
+      <div class="navbar-nav">
+        <div class="nav-item">
+          <span class="nav-link disabled" v-if="user.name != undefined">안녕하세요, {{ user.name }} 님</span>
+        </div>
+        <div class="nav-item">
+          <router-link :to="{name:'logout'}" v-if="user.name != undefined" active-class="active" class="nav-link" onclick="$('.offcanvas-collapse').removeClass('open');">로그아웃</router-link>
+          <router-link :to="{name:'login'}" v-else active-class="active" class="nav-link" onclick="$('.offcanvas-collapse').removeClass('open');">로그인</router-link>
+        </div>
+      </div>
     </div>
   </nav>
 </template>
@@ -39,7 +40,7 @@ import { mapState } from "vuex";
 
 export default {
   name: "navbar",
-  computed: mapState(["username"])
+  computed: mapState(["user"])
 };
 </script>
 
@@ -64,6 +65,14 @@ export default {
     -webkit-transform: translateX(-1rem);
     transform: translateX(-1rem);
   }
+}
+
+.navbar-brand:focus {
+  outline: none;
+}
+
+.navbar-dark .navbar-nav .nav-link.disabled {
+  color: white;
 }
 </style>
 

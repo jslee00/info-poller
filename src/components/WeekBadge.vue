@@ -1,21 +1,9 @@
 <template>
-  <div class="badge-week badge-week-input" v-if="input">
-    <span id="badge-week-0" class="badge badge-pill badge-primary" :class="{'badge-muted':!week.includes('일')}">일</span>
-    <span id="badge-week-1" class="badge badge-pill badge-primary" :class="{'badge-muted':!week.includes('월')}">월</span>
-    <span id="badge-week-2" class="badge badge-pill badge-primary" :class="{'badge-muted':!week.includes('화')}">화</span>
-    <span id="badge-week-3" class="badge badge-pill badge-primary" :class="{'badge-muted':!week.includes('수')}">수</span>
-    <span id="badge-week-4" class="badge badge-pill badge-primary" :class="{'badge-muted':!week.includes('목')}">목</span>
-    <span id="badge-week-5" class="badge badge-pill badge-primary" :class="{'badge-muted':!week.includes('금')}">금</span>
-    <span id="badge-week-6" class="badge badge-pill badge-primary" :class="{'badge-muted':!week.includes('토')}">토</span>
+  <div class="badge-week badge-week-input" v-if="input && week">
+    <span class="badge badge-pill" v-for="(date, index) in dates" :key="date" :class="{'badge-muted':!week.includes(date), 'badge-first':(index == 0)}" @click="toggle(date)">{{ date }}</span>
   </div>
-  <div class="badge-week" v-else>
-    <router-link :to="{name:'home'}"><span class="badge badge-pill badge-primary" :class="{'badge-muted':!week.includes('일')}">일</span></router-link>
-    <router-link :to="{name:'home'}"><span class="badge badge-pill badge-primary" :class="{'badge-muted':!week.includes('월')}">월</span></router-link>
-    <router-link :to="{name:'home'}"><span class="badge badge-pill badge-primary" :class="{'badge-muted':!week.includes('화')}">화</span></router-link>
-    <router-link :to="{name:'home'}"><span class="badge badge-pill badge-primary" :class="{'badge-muted':!week.includes('수')}">수</span></router-link>
-    <router-link :to="{name:'home'}"><span class="badge badge-pill badge-primary" :class="{'badge-muted':!week.includes('목')}">목</span></router-link>
-    <router-link :to="{name:'home'}"><span class="badge badge-pill badge-primary" :class="{'badge-muted':!week.includes('금')}">금</span></router-link>
-    <router-link :to="{name:'home'}"><span class="badge badge-pill badge-primary" :class="{'badge-muted':!week.includes('토')}">토</span></router-link>
+  <div class="badge-week" v-else-if="week">
+    <span class="badge badge-pill" v-for="(date, index) in dates" :key="date" :class="{'badge-muted':!week.includes(date), 'badge-first':(index == 0)}">{{ date }}</span>
   </div>
 </template>
 
@@ -23,10 +11,20 @@
 export default {
   name: "week-badge",
   props: ["week", "input"],
-  mounted: function() {
-    $(".badge-week-input > span").click(function(e) {
-      $(e.target).toggleClass("badge-muted");
-    });
+  data: function() {
+    return {
+      dates: ["일", "월", "화", "수", "목", "금", "토"],
+      enable: []
+    };
+  },
+  methods: {
+    toggle: function(date) {
+      if (this.week.includes(date)) {
+        this.week.splice(this.week.indexOf(date), 1);
+      } else {
+        this.week.push(date);
+      }
+    }
   }
 };
 </script>
@@ -34,19 +32,23 @@ export default {
 <style scoped>
 .badge {
   margin-top: -1px;
-  background-color: #479eea;
+  margin-left: 3px;
+  color: white;
+  background-color: #00796b;
   font-size: 13px;
 }
-
-.badge:hover {
-  box-shadow: 0 0 2px 1px #d4d4d5;
+.badge.badge-muted {
+  background-color: #b2dfdb;
 }
 
-.badge.badge-muted {
-  background-color: #b7defa;
+.badge-first {
+  margin-left: 0 !important;
 }
 
 .badge-week-input > span {
   cursor: pointer;
+}
+.badge-week-input > span:hover {
+  box-shadow: 0 0 2px 1px #d4d4d5;
 }
 </style>

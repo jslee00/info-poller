@@ -3,33 +3,27 @@
     <nav-scroller :submenu="submenu"></nav-scroller>
     <div class="container">
       <div class="card card-container">
-        <img id="profile-img" class="profile-img-card" src="//ssl.gstatic.com/accounts/ui/avatar_2x.png">
+        <img id="profile-img" class="profile-img-card" src="../../assets/images/settings.png">
         <p id="profile-name" class="profile-name-card"></p>
         <form class="form-signin">
-          <span id="reauth-email" class="reauth-email"></span>
-          <input type="email" id="inputEmail" class="form-control" placeholder="이메일 주소" required autofocus>
-          <input type="password" id="inputPassword" class="form-control" placeholder="비밀번호" required>
-          <!-- <div class="checkbox">
-            <label>
-              <input type="checkbox" id="remember-me"><span class="remember-me">Remember me</span>
-            </label>
-          </div> -->
-          <button class="btn btn-lg btn-primary btn-block btn-signin" type="submit">로그인</button>
-          <button class="btn btn-lg btn-fb btn-block btn-signin"><i class="fab fa-facebook-f mr-1"></i> Facebook <span class="font-weight-light">으로 로그인</span></button>
+          <input type="text" id="inputEmail" class="form-control" placeholder="이메일 주소" v-model="signUpInfo.email" required autofocus>
+          <input type="password" id="inputPassword" class="form-control" placeholder="비밀번호" v-model="signUpInfo.password" required>
+          <input type="text" id="inputName" class="form-control" placeholder="이름" v-model="signUpInfo.name" required>
+          <input type="text" id="inputGroup" class="form-control" placeholder="소속" v-model="signUpInfo.group[0]" required>
+          <div class="flash-message text-center">{{ flash.adminSignUp }}</div>
+          <button type="button" class="btn btn-lg btn-primary btn-block btn-signin" @click="signUp">회원가입</button>
         </form><!-- .form-signin -->
-        <router-link :to="{name:'forgotPassword'}" class="forgot-password">
-          비밀번호를 잊으셨나요?
-        </router-link>
-        <router-link :to="{name:'signup'}" class="sign-up">
-          회원이 아니신가요?
-        </router-link>
       </div><!-- .card-container -->
     </div><!-- .container -->
   </div>
 </template>
 
 <script>
-import NavScroller from "./NavScroller";
+import { mapState } from "vuex";
+
+import CONSTANT from "../../constant";
+
+import NavScroller from "../NavScroller";
 
 export default {
   name: "login",
@@ -41,9 +35,27 @@ export default {
           text: "Login",
           badge: 0,
           to: { name: "login" }
+        },
+        {
+          text: "Sign Up",
+          badge: 0,
+          to: { name: "signUp" }
         }
-      ]
+      ],
+      signUpInfo: {
+        email: "",
+        password: "",
+        name: "",
+        group: [""],
+        rank: "admin"
+      }
     };
+  },
+  computed: mapState(["flash"]),
+  methods: {
+    signUp: function() {
+      this.$store.dispatch(CONSTANT.SIGNUP, this.signUpInfo);
+    }
   }
 };
 </script>
@@ -64,6 +76,12 @@ export default {
   -webkit-user-select: none;
   user-select: none;
   cursor: default;
+}
+
+.flash-message {
+  font-size: 14px;
+  color: #ff6666;
+  margin-bottom: 10px;
 }
 
 /* 

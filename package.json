@@ -1,7 +1,7 @@
 {
-  "name": "fcfs-client",
+  "name": "poller-client",
   "version": "1.0.0",
-  "description": "FCFS is a web application for first-come-first-served surveys such as enrollment applications.",
+  "description": "Poller is a web application for first-come-first-served surveys such as enrollment applications.",
   "author": "Lee Jaeseok <leeneiwiso@gmail.com>",
   "private": true,
   "scripts": {
@@ -16,6 +16,8 @@
     "axios": "^0.17.1",
     "es6-promise": "^4.1.1",
     "lodash": "^4.17.5",
+    "moment": "^2.20.1",
+    "npm": "^5.7.1",
     "vue": "^2.5.2",
     "vue-router": "^3.0.1",
     "vue-simple-spinner": "^1.2.8",

@@ -1,19 +1,28 @@
 import CONFIG from "../config";
 
 export default {
-  isLoading: false,
-  username: "neiwiso",
-  contact: {
-    no: 0,
-    name: "",
-    tel: "",
-    address: "",
-    photo: ""
+  flash: {
+    login: "",
+    adminSignUp: "",
+    userSignUp: "",
+    editUserInfo: ""
   },
-  contactlist: {
-    pageno: 1,
-    pagesize: CONFIG.PAGESIZE,
-    totalcount: 0,
-    contacts: []
-  }
+  isLoading: false,
+  user: { _id: 0, group: [] },
+  userInfo: { _id: 0, group: [] },
+  poll: {
+    writer: {
+      _id: 0
+    },
+    target: {}
+  },
+  pollList: [],
+  item: {
+    writer: {
+      _id: 0
+    },
+    week: [],
+    tags: []
+  },
+  itemList: []
 };

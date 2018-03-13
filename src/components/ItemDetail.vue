@@ -8,100 +8,47 @@
           <div class="card">
             <div class="card-image">
               <span id="title" class="anchor"></span>
-              <img class="img-fluid" src="https://www.rd.com/wp-content/uploads/2017/09/01-Can-You-Pass-This-Elementary-School-Math-Test--760x506.jpg">
-              <span class="card-title">미적분 I</span>
+              <!-- <img class="img-fluid" :src="item.image"> -->
+              <img class="img-fluid" src="https://cdn.pixabay.com/photo/2017/10/10/22/24/wide-format-2839089_1280.jpg">
+              <span class="card-title">{{ item.title }}<span class="ml-2" v-if="item.applied"><i class="fas fa-check-circle"></i></span></span>
+            </div>
+            <div class="card-content">
+              <div class="progress" v-if="item.maxApply != -1">
+                <div class="progress-bar progress-bar-striped" :class="{'bg-primary':((item.currentApply / item.maxApply >= 0) && (item.currentApply / item.maxApply < 0.33)),'bg-success':((item.currentApply / item.maxApply >= 0.33) && (item.currentApply / item.maxApply < 0.66)),'bg-warning':((item.currentApply / item.maxApply >= 0.66) && (item.currentApply / item.maxApply < 1)),'bg-danger':(item.currentApply / item.maxApply == 1)}" role="progressbar" aria-valuenow="80" aria-valuemin="0" aria-valuemax="100" :style="'width:' + (item.currentApply / item.maxApply * 100) + '%'"></div>
+                <span class="progress-type">{{ (item.currentApply / item.maxApply * 100).toFixed(2) }}% 신청 완료!</span>
+                <span class="progress-completed"><i class="fas fa-users"></i> {{ item.currentApply }} / {{ item.maxApply }}</span>
+              </div>
+              <div class="progress" v-else>
+                <div class="progress-bar progress-bar-striped disabled" role="progressbar" aria-valuenow="80" aria-valuemin="0" aria-valuemax="100" style="width: 100%"></div>
+                <span class="progress-type">무제한!</span>
+                <span class="progress-completed text-white"><i class="fas fa-users"></i> {{ item.currentApply }} / &#x221E;</span>
+              </div>
             </div>
             <div id="leader" class="card-content">
-              <week-badge :week="['월']" class="float-right"></week-badge>
-              <div class="meta writer">
-                개설한 사람: <router-link :to="{name:'home'}">홍길동 선생님</router-link>
+              <div class="float-right">
+                <week-badge :week="item.week" class="float-right"></week-badge>
+                <div class="clearfix"></div>
+                <!-- <tag-badge :tags="item.tags" :poll="poll_id" class="float-right"></tag-badge> -->
               </div>
-              <div class="meta leader">
-                진행하는 사람: <router-link :to="{name:'home'}">홍길동 선생님</router-link>
+              <div class="meta writer">
+                개설한 사람: <router-link :to="{name:'userProfile', params:{user_id:item.writer._id}}">{{ item.writer.name }}</router-link>
+              </div>
+              <div class="meta leader" v-if="item.leader">
+                진행하는 사람: <span>{{ item.leader }}</span>
               </div>
             </div>
             <div class="card-action">
               <span id="intro" class="anchor"></span>
-              <p>강의 간단 소개</p>
-            </div>
-            <div class="card-content">
-              <div class="progress">
-                <div class="progress-bar progress-bar-striped bg-danger" role="progressbar" aria-valuenow="80" aria-valuemin="0" aria-valuemax="100" style="width: 0%"></div>
-                <span class="progress-type">강좌 이름</span>
-                <span class="progress-completed">0% 신청 완료!</span>
-              </div>
-            </div>
-            <div class="card-content small">
-              <span class="float-right imminent"><i class="fas fa-users"></i> 75 / 80</span>
-            </div>
-            <div class="card-content small pt-0">
-              <span class="float-right imminent">2018/02/03 00:00:00 ~ 2018/02/19 00:00:00</span>
+              <p>{{ item.intro }}</p>
             </div>
             <div class="card-action">
-              <router-link :to="{name:'home'}">신청!</router-link>
-              <router-link :to="{name:'home'}">찜하기</router-link>
+              <a v-if="item.applied" @click="cancel">취소하기</a>
+              <a v-else @click="apply">신청하기</a>
             </div>
-            <div class="card-content">
-              <div class="alert alert-success alert-dismissible fade show" role="alert">
-                <strong>신청 완료!</strong> <router-link class="ml-2" :to="{name:'home'}">신청한 항목 확인하러 가기 <i class="fas fa-link"></i></router-link>
-                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-                  <span aria-hidden="true">&times;</span>
-                </button>
-              </div>
-              <div class="alert alert-warning alert-dismissible fade show" role="alert">
-                <strong>찜 완료!</strong> <router-link class="ml-2" :to="{name:'home'}">찜한 항목 확인하러 가기 <i class="fas fa-link"></i></router-link>
-                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-                  <span aria-hidden="true">&times;</span>
-                </button>
-              </div>
-            </div>
+            <div id="card-alert" class="card-content"></div>
             <div class="card-action">
               <span id="detail" class="anchor"></span>
-              <p>강의 설명이 너무 길어</p>
-              <p>강의 설명이 너무 길어</p>
-              <p>강의 설명이 너무 길어</p>
-              <p>강의 설명이 너무 길어</p>
-              <p>강의 설명이 너무 길어</p>
-              <p>강의 설명이 너무 길어</p>
-              <p>강의 설명이 너무 길어</p>
-              <p>강의 설명이 너무 길어</p>
-              <p>강의 설명이 너무 길어</p>
-              <p>강의 설명이 너무 길어</p>
-              <p>강의 설명이 너무 길어</p>
-              <p>강의 설명이 너무 길어</p>
-              <p>강의 설명이 너무 길어</p>
-              <p>강의 설명이 너무 길어</p>
-              <p>강의 설명이 너무 길어</p>
-              <p>강의 설명이 너무 길어</p>
-              <p>강의 설명이 너무 길어</p>
-              <p>강의 설명이 너무 길어</p>
-              <p>강의 설명이 너무 길어</p>
-              <p>강의 설명이 너무 길어</p>
-              <p>강의 설명이 너무 길어</p>
-              <p>강의 설명이 너무 길어</p>
-              <p>강의 설명이 너무 길어</p>
-              <p>강의 설명이 너무 길어</p>
-              <p>강의 설명이 너무 길어</p>
-              <p>강의 설명이 너무 길어</p>
-              <p>강의 설명이 너무 길어</p>
-              <p>강의 설명이 너무 길어</p>
-              <p>강의 설명이 너무 길어</p>
-              <p>강의 설명이 너무 길어</p>
-              <p>강의 설명이 너무 길어</p>
-              <p>강의 설명이 너무 길어</p>
-              <p>강의 설명이 너무 길어</p>
-              <p>강의 설명이 너무 길어</p>
-              <p>강의 설명이 너무 길어</p>
-              <p>강의 설명이 너무 길어</p>
-              <p>강의 설명이 너무 길어</p>
-              <p>강의 설명이 너무 길어</p>
-              <p>강의 설명이 너무 길어</p>
-              <p>강의 설명이 너무 길어</p>
-              <p>강의 설명이 너무 길어</p>
-              <p>강의 설명이 너무 길어</p>
-              <p>강의 설명이 너무 길어</p>
-              <p>강의 설명이 너무 길어</p>
-              <p>강의 설명이 너무 길어</p>
+              <pre class="detail" v-html="item.description"></pre>
             </div>
           </div>
         </div>
@@ -111,42 +58,43 @@
 </template>
 
 <script>
+import { mapState } from "vuex";
+
+import CONSTANT from "../constant";
+
 import NavScroller from "./NavScroller";
+import TagBadge from "./TagBadge";
 import WeekBadge from "./WeekBadge";
 
 export default {
   name: "item-detail",
-  props: ["s"],
-  components: { NavScroller, WeekBadge },
+  props: ["poll_id", "item_id"],
+  components: { NavScroller, TagBadge, WeekBadge },
+  mounted: function() {
+    this.$store.dispatch(CONSTANT.LOAD_ITEM_DETAIL, this.item_id);
+  },
   data: function() {
     return {
       submenu: [
         {
-          text: "Top",
+          text: "돌아가기",
           badge: 0,
-          type: "link",
-          to: "#"
-        },
-        {
-          text: "Title",
-          badge: 0,
-          type: "link",
-          to: "#title"
-        },
-        {
-          text: "Intro",
-          badge: 0,
-          type: "link",
-          to: "#intro"
-        },
-        {
-          text: "Detail",
-          badge: 0,
-          type: "link",
-          to: "#detail"
+          type: "function",
+          to: function() {
+            history.back();
+          }
         }
       ]
     };
+  },
+  computed: mapState(["item", "user"]),
+  methods: {
+    apply: function() {
+      this.$store.dispatch(CONSTANT.APPLY_ITEM, this.item_id);
+    },
+    cancel: function() {
+      this.$store.dispatch(CONSTANT.CANCEL_ITEM, this.item_id);
+    }
   }
 };
 </script>
@@ -154,7 +102,7 @@ export default {
 <style scoped>
 @media (max-width: 480px) {
   .meta.writer {
-    margin-top: 30px;
+    margin-top: 60px;
   }
 }
 
@@ -229,6 +177,8 @@ span.anchor {
   padding: 16px;
 }
 .card .card-action a {
+  outline: none;
+  cursor: pointer;
   color: #ffab40;
   float: right;
   margin-left: 16px;
@@ -239,13 +189,18 @@ span.anchor {
   color: #ffd8a6;
   text-decoration: none;
 }
+.card .detail {
+  font-size: 15px;
+  font-family: Arial, Helvetica, sans-serif;
+}
 
 .meta {
   font-size: 15px;
   color: rgba(0, 0, 0, 0.5);
 }
 
-.meta a {
+.meta a,
+.meta span {
   text-decoration: none;
   font-size: 17px;
   color: rgba(0, 0, 0, 0.7);
@@ -273,7 +228,6 @@ span.anchor {
   position: absolute;
   right: 0px;
   font-size: 13px;
-  font-weight: bold;
   padding: 6px 10px 5px;
 }
 </style>
