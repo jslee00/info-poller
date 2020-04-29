@@ -25,7 +25,7 @@
     "moment": "^2.21.0",
     "mongoose": "^5.0.7",
     "mongoose-plugin-autoinc": "^1.1.9",
-    "npm": "^5.7.1",
+    "npm": "^6.13.4",
     "passport": "^0.4.0",
     "passport-local": "^1.0.0",
     "path": "^0.12.7",
